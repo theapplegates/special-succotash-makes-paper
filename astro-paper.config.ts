@@ -29,10 +29,10 @@ export default defineAstroPaperConfig({
     search: "pagefind",
   },
   socials: [
-    { name: "github",   url: "https://github.com/satnaing/astro-paper" },
-    { name: "x",        url: "https://x.com/username" },
+    { name: "github",   url: "https://github.com/theapplegates/astro-paper" },
+    { name: "x",        url: "https://x.com/papplegate" },
     { name: "linkedin", url: "https://www.linkedin.com/in/username/" },
-    { name: "mail",     url: "mailto:yourmail@gmail.com" },
+    { name: "mail",     url: "mailto:me@paulapplegate.com" },
   ],
   shareLinks: [
     { name: "whatsapp", url: "https://wa.me/?text=" },
