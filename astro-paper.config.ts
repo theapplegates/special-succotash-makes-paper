@@ -6,7 +6,7 @@ export default defineAstroPaperConfig({
     title: "AstroPaper",
     description: "A minimal, responsive and SEO-friendly Astro blog theme.",
     author: "Paul Applegate",
-    profile: "https://paulapplegate.com",
+    profile: "https://paper.paulapplegate.com",
     ogImage: "default-og.jpg",
     lang: "en",
     timezone: "America/New_York",
