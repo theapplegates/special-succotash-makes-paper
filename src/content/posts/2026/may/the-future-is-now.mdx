@@ -1,0 +1,26 @@
+---
+title: "The future is now"
+author: "Paul Applegate"
+pubDatetime: 2026-05-20T22:21:15.641Z
+featured: false
+draft: false
+tags:
+  - "test"
+  - "script"
+description: "This is new to me. Scripting a post entry."
+hideEditPost: false
+timezone: "America/New_York"
+---
+
+import Picture from "@/components/Picture.astro";
+import breakpoints from "@/data/cloudinary-breakpoints.json";
+
+<Picture
+  src="assets/images/Image-1"
+  alt="Demo image served from Cloudinary in JXL, AVIF, and WebP."
+  width={2000}
+  height={1500}
+  sizes="(min-width: 768px) 720px, 100vw"
+  breakpoints={breakpoints["assets/images/Image-1"]}
+  pictureClass="responsive-picture"
+/>

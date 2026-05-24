@@ -1,0 +1,52 @@
+---
+author: Paul Applegate
+pubDatetime: 2026-05-19T12:00:00Z
+title: Cloudinary JXL demo
+featured: false
+draft: false
+tags:
+  - jxl
+  - cloudinary
+description: End-to-end check that Cloudinary serves JXL/AVIF/WebP and Astro/Sharp never touches the post image.
+---
+import Picture from "@/components/Picture.astro";
+import breakpoints from "@/data/cloudinary-breakpoints.json";
+
+This image is delivered entirely by Cloudinary. The `<picture>` element below offers JXL, AVIF, and WebP sources, with a WebP `<img>` as the floor. No JPEG fallback. Sharp is not invoked.
+
+<Picture
+  src="assets/images/Image-1"
+  alt="Demo image served from Cloudinary in JXL, AVIF, and WebP."
+  width={2000}
+  height={1500}
+  sizes="(min-width: 768px) 720px, 100vw"
+  breakpoints={breakpoints["assets/images/Image-1"]}
+  pictureClass="responsive-picture"
+/>
+
+## Verify in the browser
+
+After `pnpm build && pnpm preview`, open the post and run:
+
+```js
+document.querySelector("picture img")?.currentSrc;
+```
+
+Expected substrings by browser:
+
+- Safari 17+: `f_jxl` (`.jxl`)
+- Chrome/Firefox: `f_avif` (`.avif`)
+- Anything older: `f_webp` (`.webp`)
+
+You should never see `f_jpg` — there is no JPEG source.
+
+
+<Picture
+  src="assets/images/ChatGImageApr26"
+  alt="Demo image served from Cloudinary in JXL, AVIF, and WebP."
+  width={2000}
+  height={1500}
+  sizes="(min-width: 768px) 720px, 100vw"
+  breakpoints={breakpoints["assets/images/ChatGImageApr26"]}
+  pictureClass="responsive-picture"
+/>

@@ -1,0 +1,131 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import {
+  getCldImageUrl,
+  type GetCldImageUrlOptions,
+} from "astro-cloudinary/helpers";
+
+type CloudinaryFormat = "jxl" | "avif" | "webp";
+type CloudinaryBreakpoint =
+  | number
+  | {
+      width: number;
+    };
+type CloudinaryBreakpointSet =
+  | CloudinaryBreakpoint[]
+  | {
+      breakpoints: CloudinaryBreakpoint[];
+    };
+type ImageAttrs = Omit<
+  HTMLAttributes<"img">,
+  "src" | "srcset" | "alt" | "width" | "height" | "sizes"
+>;
+type Transformations = Omit<
+  GetCldImageUrlOptions,
+  "src" | "width" | "height" | "format"
+>;
+
+type Props = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  sizes: string;
+  breakpoints: CloudinaryBreakpointSet;
+  pictureClass?: string;
+  transformations?: Transformations;
+} & ImageAttrs;
+
+const FORMAT_ORDER: CloudinaryFormat[] = ["jxl", "avif", "webp"];
+const MIME_TYPES: Record<CloudinaryFormat, string> = {
+  jxl: "image/jxl",
+  avif: "image/avif",
+  webp: "image/webp",
+};
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  sizes,
+  breakpoints,
+  pictureClass,
+  transformations = {},
+  loading = "lazy",
+  decoding = "async",
+  ...attrs
+} = Astro.props;
+
+const getBreakpointWidth = (breakpoint: CloudinaryBreakpoint) =>
+  typeof breakpoint === "number" ? breakpoint : breakpoint.width;
+
+// 1. First, make sure something was actually passed in
+  if (!breakpoints) {
+    throw new Error(
+      `Cloudinary breakpoints are missing or undefined for src: "${src}". Please verify this key exists in your JSON file.`
+    );
+  }
+  
+  // 2. Safely extract the array whether it's a direct array or wrapped in an object
+  const breakpointList = Array.isArray(breakpoints)
+    ? breakpoints
+    : ('breakpoints' in breakpoints ? breakpoints.breakpoints : undefined);
+  
+  if (!breakpointList) {
+    throw new Error(`Could not find a valid array of breakpoints for src: "${src}".`);
+  }
+const normalizedBreakpoints = [
+  ...new Set(
+    breakpointList
+      .map(getBreakpointWidth)
+      .filter(breakpoint => Number.isFinite(breakpoint) && breakpoint > 0)
+      .concat(width)
+  ),
+].sort((a, b) => a - b);
+
+if (normalizedBreakpoints.length === 0) {
+  throw new Error(
+    `Cloudinary breakpoints are required for ${src}. Run "pnpm cloudinary:breakpoints ${src}" and pass the generated widths.`
+  );
+}
+
+const createUrl = (format: CloudinaryFormat, breakpoint: number) =>
+  getCldImageUrl({
+    crop: "limit",
+    quality: "auto",
+    ...transformations,
+    src,
+    width: breakpoint,
+    format,
+  });
+
+const createSrcSet = (format: CloudinaryFormat) =>
+  normalizedBreakpoints
+    .map(breakpoint => `${createUrl(format, breakpoint)} ${breakpoint}w`)
+    .join(", ");
+
+const fallbackSrc = createUrl("webp", width);
+---
+
+<picture class={pictureClass}>
+  {
+    FORMAT_ORDER.map(format => (
+      <source
+        type={MIME_TYPES[format]}
+        sizes={sizes}
+        srcset={createSrcSet(format)}
+      />
+    ))
+  }
+  <img
+    {...attrs}
+    src={fallbackSrc}
+    alt={alt}
+    width={width}
+    height={height}
+    sizes={sizes}
+    loading={loading}
+    decoding={decoding}
+  />
+</picture>

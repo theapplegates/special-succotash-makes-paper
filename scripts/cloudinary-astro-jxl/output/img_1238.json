@@ -1,0 +1,69 @@
+{
+  "asset_id": "e3e07f689326d7b6a5e6c054db2aafcd",
+  "public_id": "k4ypqjwezk0xk1ovdazw",
+  "version": 1778964062,
+  "width": 2048,
+  "height": 1150,
+  "format": "jpg",
+  "secure_url": "https://res.cloudinary.com/paulapplegate-com/image/upload/v1778964062/k4ypqjwezk0xk1ovdazw.jpg",
+  "raw_widths_from_cloudinary": [
+    200,
+    964,
+    1400
+  ],
+  "selected_widths": [
+    200,
+    964,
+    1400
+  ],
+  "widths_by_format": {
+    "jxl": [
+      200,
+      964,
+      1400
+    ],
+    "avif": [
+      200,
+      906,
+      1400
+    ],
+    "webp": [
+      200,
+      1012,
+      1400
+    ]
+  },
+  "formats": [
+    "jxl",
+    "avif",
+    "webp"
+  ],
+  "fallback_format": "webp",
+  "art_direction": [
+    {
+      "name": "desktop",
+      "media": "(min-width: 1200px)",
+      "sizes": "40vw",
+      "extra_transformation": null
+    },
+    {
+      "name": "laptop",
+      "media": "(min-width: 992px) and (max-width: 1199px)",
+      "sizes": "60vw",
+      "extra_transformation": "ar_16:9,c_fill,g_auto"
+    },
+    {
+      "name": "tablet",
+      "media": "(min-width: 768px) and (max-width: 991px)",
+      "sizes": "70vw",
+      "extra_transformation": "ar_4:3,c_fill,g_auto"
+    },
+    {
+      "name": "mobile",
+      "media": "(max-width: 767px)",
+      "sizes": "100vw",
+      "extra_transformation": "ar_1:1,c_fill,g_auto"
+    }
+  ],
+  "html_output": "output/img_1238.html"
+}
